@@ -1,0 +1,52 @@
+  <div class="w-commerce-commercecartformwrapper">
+    <form data-node-type="commerce-cart-form" class="w-commerce-commercecartform">
+      <div class="w-commerce-commercecartlist" style="background-color: {{ settings.center_cart_bg_color }}; {% if settings.center_cart_bg_img %}background-repeat: no-repeat; background-position: center; background-size: cover; object-fit: cover; background-image: url('{{ settings.center_cart_bg_img | image_url }}'); {% endif %}" data-wf-collection="database.commerceOrder.userItems" data-wf-template-id="wf-template-b46ce580-dd6b-e4df-f0e5-7b65957d929d">
+        {% for item in cart.items %}
+          <div data-node-type="cart-item" class="w-commerce-commercecartitem">
+            <img data-node-type="cart-item-image" class="w-commerce-commercecartitemimage" src="{{ item.image | img_url }}">
+            <div data-node-type="cart-item-info" class="w-commerce-commercecartiteminfo">
+              <div data-node-type="cart-product-name" style="color: {{ settings.center_cart_txt_color }};" class="text-block-10 w-commerce-commercecartproductname">{{ item.title }}</div>
+              <div style="color: {{ settings.center_cart_txt_color }};">{{ item.price | money }}</div>
+              <ul class="w-commerce-commercecartoptionlist">
+                {% if item.color %}
+                  <li style="color: {{ settings.center_cart_txt_color }};">
+                    <span>Color:</span>
+                    <span>{{ item.color }}</span>
+                  </li>
+                {% endif %}
+                {% if item.size %}
+                  <li style="color: {{ settings.center_cart_txt_color }};">
+                    <span>Size:</span>
+                    <span>{{ item.size }}</span>
+                  </li>
+                {% endif %}
+                {% for property in item.properties %}
+                  <li style="color: {{ settings.center_cart_txt_color }};">
+                    <span>{{ property[0] }}:</span>
+                    <span>{{ property[1] }}</span>
+                  </li>
+                {% endfor %}
+              </ul>
+              <a style="color: {{ settings.center_cart_txt_color }};" data-node-type="cart-remove-link" class="remove-button" href="#" role="button" aria-label="Remove item from cart" data-product-id="{{ item.id }}">Remove</a>
+              <input class="w-commerce-commercecartquantity cart-quantity" name="{{ item.id }}" type="number" min="0" min="1" value="{{ item.quantity }}" data-node-type="cart-quantity">
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="w-commerce-commercecartfooter" style="border-top-color: {{ settings.cart_divider_color }}; background-color:{{ settings.lower_cart_bg_color }};">
+        <div aria-atomic="true" aria-live="polite" class="w-commerce-commercecartlineitem">
+          <div style="color:{{ settings.lower_cart_txt_color }};">Subtotal:</div>
+          <div style="color:{{ settings.lower_cart_txt_color }};">{{ cart.items_subtotal_price | money }}</div>
+        </div>
+        <div>
+          <div data-node-type="commerce-cart-quick-checkout-actions">
+            {{ content_for_additional_checkout_buttons }}
+          </div>
+          <a style="background-color: {{ settings.checkout_btn_bg_color }}; color: {{ settings.checkout_btn_txt_color }};" href="/checkout" value="Continue to Checkout" data-node-type="cart-checkout-button" class="w-commerce-commercecartcheckoutbutton checkout-button-2" data-loading-text="Hang Tight...">
+            {{- 'tn7941186e' | t -}}
+          </a>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
